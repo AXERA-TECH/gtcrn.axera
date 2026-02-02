@@ -1,0 +1,123 @@
+{
+    "model_type": "ONNX",
+    "npu_mode": "NPU1",
+    "input": "onnx_models/gtcrn_optimized.onnx",
+    "output_dir": "output_620L",
+    "output_name": "gtcrn.axmodel",
+    "target_hardware": "AX620L",
+    "quant": {
+      "input_configs": [
+        {
+          "tensor_name": "mix",
+          "calibration_dataset": "calibration_datamix.zip",
+          "calibration_size": -1,
+          "calibration_format": "Numpy"
+        },
+        {
+          "tensor_name": "en_conv_cache_0",
+          "calibration_dataset": "calibration_dataen_conv_cache_0.zip",
+          "calibration_size": -1,
+          "calibration_format": "Numpy"
+        },
+        {
+          "tensor_name": "en_conv_cache_1",
+          "calibration_dataset": "calibration_dataen_conv_cache_1.zip",
+          "calibration_size": -1,
+          "calibration_format": "Numpy"
+        },
+        {
+          "tensor_name": "en_conv_cache_2",
+          "calibration_dataset": "calibration_dataen_conv_cache_2.zip",
+          "calibration_size": -1,
+          "calibration_format": "Numpy"
+        },
+        {
+          "tensor_name": "de_conv_cache_0",
+          "calibration_dataset": "calibration_datade_conv_cache_0.zip",
+          "calibration_size": -1,
+          "calibration_format": "Numpy"
+        },
+        {
+          "tensor_name": "de_conv_cache_1",
+          "calibration_dataset": "calibration_datade_conv_cache_1.zip",
+          "calibration_size": -1,
+          "calibration_format": "Numpy"
+        },
+        {
+          "tensor_name": "de_conv_cache_2",
+          "calibration_dataset": "calibration_datade_conv_cache_2.zip",
+          "calibration_size": -1,
+          "calibration_format": "Numpy"
+        },
+        {
+          "tensor_name": "en_tra_cache_0",
+          "calibration_dataset": "calibration_dataen_tra_cache_0.zip",
+          "calibration_size": -1,
+          "calibration_format": "Numpy"
+        },
+        {
+          "tensor_name": "en_tra_cache_1",
+          "calibration_dataset": "calibration_dataen_tra_cache_1.zip",
+          "calibration_size": -1,
+          "calibration_format": "Numpy"
+        },
+        {
+          "tensor_name": "en_tra_cache_2",
+          "calibration_dataset": "calibration_dataen_tra_cache_2.zip",
+          "calibration_size": -1,
+          "calibration_format": "Numpy"
+        },
+        {
+          "tensor_name": "de_tra_cache_0",
+          "calibration_dataset": "calibration_datade_tra_cache_0.zip",
+          "calibration_size": -1,
+          "calibration_format": "Numpy"
+        },
+        {
+          "tensor_name": "de_tra_cache_1",
+          "calibration_dataset": "calibration_datade_tra_cache_1.zip",
+          "calibration_size": -1,
+          "calibration_format": "Numpy"
+        },
+        {
+          "tensor_name": "de_tra_cache_2",
+          "calibration_dataset": "calibration_datade_tra_cache_2.zip",
+          "calibration_size": -1,
+          "calibration_format": "Numpy"
+        },
+        {
+          "tensor_name": "inter_cache_0",
+          "calibration_dataset": "calibration_datainter_cache_0.zip",
+          "calibration_size": -1,
+          "calibration_format": "Numpy"
+        },
+        {
+          "tensor_name": "inter_cache_1",
+          "calibration_dataset": "calibration_datainter_cache_1.zip",
+          "calibration_size": -1,
+          "calibration_format": "Numpy"
+        }
+      ],
+      "layer_configs": [
+          {
+            "start_tensor_names": ["DEFAULT"],
+            "end_tensor_names": ["DEFAULT"],
+            "data_type": "U16",
+            "weight_data_type": "S8",
+            "output_data_type": "U16"
+          }
+      ],
+      "calibration_method": "MinMax",
+      "precision_analysis": true,
+      "enable_smooth_quant": true,
+      "precision_analysis_method": "EndToEnd"
+    },
+    "input_processors": [
+      {
+        "tensor_name": "DEFAULT"
+      }
+    ],
+    "compiler": {
+      "check": 2
+    }
+}
