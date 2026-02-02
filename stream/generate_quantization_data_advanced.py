@@ -371,16 +371,16 @@ def main():
         print("请先运行 export_onnx_no_scatter.py 导出模型")
         return
     
-    print("=" * 70)
-    print("ONNX 模型量化校准数据生成器（增强版）")
-    print("=" * 70)
-    print(f"ONNX 模型: {args.onnx_model}")
-    print(f"音频目录: {args.audio_dir}")
-    print(f"目标样本数: {args.num_samples}")
-    print(f"跳帧间隔: {args.skip_frames}")
-    print(f"Warmup 帧数: {args.warmup_frames}")
-    print(f"输出目录: {args.output_dir}")
-    print("=" * 70)
+    # print("=" * 70)
+    # print("ONNX 模型量化校准数据生成器")
+    # print("=" * 70)
+    # print(f"ONNX 模型: {args.onnx_model}")
+    # print(f"音频目录: {args.audio_dir}")
+    # print(f"目标样本数: {args.num_samples}")
+    # print(f"跳帧间隔: {args.skip_frames}")
+    # print(f"Warmup 帧数: {args.warmup_frames}")
+    # print(f"输出目录: {args.output_dir}")
+    # print("=" * 70)
     
     input_names = [
         'mix',
