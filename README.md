@@ -12,6 +12,8 @@ pip install -r requirements.txt
 1. 确保模型权重文件已放置在 `onnx_models/` 目录下（如 `model_trained_on_dns3.tar`）。
 2. 运行导出脚本：
 ```bash
+cd gtcrn.axera
+export PYTHONPATH=$PWD:#PYTHONPATH
 sh export.sh
 ```
 导出的ONNX文件 `onnx_models/gtcrn_optimized.onnx` 。
@@ -28,3 +30,4 @@ python stream/generate_quantization_data_advanced.py --onnx_model onnx_models/gt
 pulsar2 build --config config/config_gtcrn_615.json
 ```
 量化模型保存在`output_620L`文件夹
+
