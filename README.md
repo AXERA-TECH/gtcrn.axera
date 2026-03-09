@@ -26,8 +26,17 @@ python stream/generate_quantization_data_advanced.py --onnx_model onnx_models/gt
 
 ## 模型转换（onnx->axmodel）
 将导出的ONNX模型转换为AXERA平台的axmodel格式：
+
+AX620L平台
 ```bash
 pulsar2 build --config config/config_gtcrn_615.json
 ```
 量化模型保存在`output_620L`文件夹
+
+AX620E平台
+```bash
+pulsar2 build --config config/config_gtcrn_620E.json
+```
+量化模型保存在`output_620E`文件夹
+
 
