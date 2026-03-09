@@ -128,6 +128,6 @@
       }
     ],
     "compiler": {
-      "check": 2
+      "check": 0
     }
 }
