@@ -1,0 +1,133 @@
+{
+    "model_type": "ONNX",
+    "npu_mode": "NPU1",
+    "input": "onnx_models/gtcrn_optimized.onnx",
+    "output_dir": "output_620E",
+    "output_name": "gtcrn.axmodel",
+    "target_hardware": "AX620E",
+    "quant": {
+      "input_configs": [
+        {
+          "tensor_name": "mix",
+          "calibration_dataset": "Calibration_data/mix.zip",
+          "calibration_size": -1,
+          "calibration_format": "Numpy"
+        },
+        {
+          "tensor_name": "en_conv_cache_0",
+          "calibration_dataset": "Calibration_data/en_conv_cache_0.zip",
+          "calibration_size": -1,
+          "calibration_format": "Numpy"
+        },
+        {
+          "tensor_name": "en_conv_cache_1",
+          "calibration_dataset": "Calibration_data/en_conv_cache_1.zip",
+          "calibration_size": -1,
+          "calibration_format": "Numpy"
+        },
+        {
+          "tensor_name": "en_conv_cache_2",
+          "calibration_dataset": "Calibration_data/en_conv_cache_2.zip",
+          "calibration_size": -1,
+          "calibration_format": "Numpy"
+        },
+        {
+          "tensor_name": "de_conv_cache_0",
+          "calibration_dataset": "Calibration_data/de_conv_cache_0.zip",
+          "calibration_size": -1,
+          "calibration_format": "Numpy"
+        },
+        {
+          "tensor_name": "de_conv_cache_1",
+          "calibration_dataset": "Calibration_data/de_conv_cache_1.zip",
+          "calibration_size": -1,
+          "calibration_format": "Numpy"
+        },
+        {
+          "tensor_name": "de_conv_cache_2",
+          "calibration_dataset": "Calibration_data/de_conv_cache_2.zip",
+          "calibration_size": -1,
+          "calibration_format": "Numpy"
+        },
+        {
+          "tensor_name": "en_tra_cache_0",
+          "calibration_dataset": "Calibration_data/en_tra_cache_0.zip",
+          "calibration_size": -1,
+          "calibration_format": "Numpy"
+        },
+        {
+          "tensor_name": "en_tra_cache_1",
+          "calibration_dataset": "Calibration_data/en_tra_cache_1.zip",
+          "calibration_size": -1,
+          "calibration_format": "Numpy"
+        },
+        {
+          "tensor_name": "en_tra_cache_2",
+          "calibration_dataset": "Calibration_data/en_tra_cache_2.zip",
+          "calibration_size": -1,
+          "calibration_format": "Numpy"
+        },
+        {
+          "tensor_name": "de_tra_cache_0",
+          "calibration_dataset": "Calibration_data/de_tra_cache_0.zip",
+          "calibration_size": -1,
+          "calibration_format": "Numpy"
+        },
+        {
+          "tensor_name": "de_tra_cache_1",
+          "calibration_dataset": "Calibration_data/de_tra_cache_1.zip",
+          "calibration_size": -1,
+          "calibration_format": "Numpy"
+        },
+        {
+          "tensor_name": "de_tra_cache_2",
+          "calibration_dataset": "Calibration_data/de_tra_cache_2.zip",
+          "calibration_size": -1,
+          "calibration_format": "Numpy"
+        },
+        {
+          "tensor_name": "inter_cache_0",
+          "calibration_dataset": "Calibration_data/inter_cache_0.zip",
+          "calibration_size": -1,
+          "calibration_format": "Numpy"
+        },
+        {
+          "tensor_name": "inter_cache_1",
+          "calibration_dataset": "Calibration_data/inter_cache_1.zip",
+          "calibration_size": -1,
+          "calibration_format": "Numpy"
+        }
+      ],
+      "layer_configs": [
+
+          {
+            "start_tensor_names": ["/decoder/de_convs.4/conv/ConvTranspose_output_0","/Transpose_2_output_0"],
+            "end_tensor_names": ["enh"],
+            "data_type": "FP32",
+            "output_data_type": "FP32",
+            "weight_data_type": "FP32"
+          }
+          ,
+
+          {
+            "start_tensor_names": ["DEFAULT"],
+            "end_tensor_names": ["DEFAULT"],
+            "data_type": "U16",
+            "weight_data_type": "S8",
+            "output_data_type": "U16"
+          }
+      ],
+      "calibration_method": "MinMax",
+      "precision_analysis": true,
+      "enable_smooth_quant": true,
+      "precision_analysis_method": "EndToEnd"
+    },
+    "input_processors": [
+      {
+        "tensor_name": "DEFAULT"
+      }
+    ],
+    "compiler": {
+      "check": 0
+    }
+}
