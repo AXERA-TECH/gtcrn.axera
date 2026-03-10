@@ -39,4 +39,41 @@ pulsar2 build --config config/config_gtcrn_620E.json
 ```
 量化模型保存在`output_620E`文件夹
 
+## 推理
+[板端推理](https://huggingface.co/AXERA-TECH/gtcrn.axera)
+
+
+# 少输入版本
+步骤同上
+## 导出ONNX模型
+```
+修改 export.sh
+将export_onnx.py 改为 export_onnx_less_input.py
+执行 sh export.sh
+```
+
+## 量化数据生成
+```
+python stream/generate_quantization_data_less_input.py --onnx_model onnx_models/gtcrn_optimized.onnx --audio_dir test_wavs --num_samples 100 --skip_frames 5 --warmup_frames 20
+```
+生成量化数据保存在`calibration_data`文件夹
+
+## 模型转换（onnx->axmodel）
+将导出的ONNX模型转换为AXERA平台的axmodel格式：
+
+AX620L平台
+```bash
+pulsar2 build --config config/config_gtcrn_615_less_input.json
+```
+量化模型保存在`output_620L`文件夹
+
+AX620E平台
+```bash
+pulsar2 build --config config/config_gtcrn_620E_less_input.json
+```
+量化模型保存在`output_620E`文件夹
+
+## 推理
+[板端推理](https://huggingface.co/AXERA-TECH/gtcrn.axera)
+将 demo_gtcrn_ax.py 替换为 demo_gtcrn_ax_less_input.py
 
