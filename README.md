@@ -43,6 +43,8 @@ pulsar2 build --config config/config_gtcrn_620E.json
 [板端推理](https://huggingface.co/AXERA-TECH/gtcrn.axera)
 
 
+---------------------------------------------------------------------------------------------------------------------------------------------------------
+
 # 少输入版本
 步骤同上
 ## 导出ONNX模型
@@ -76,4 +78,5 @@ pulsar2 build --config config/config_gtcrn_620E_less_input.json
 ## 推理
 [板端推理](https://huggingface.co/AXERA-TECH/gtcrn.axera)
 将 demo_gtcrn_ax.py 替换为 demo_gtcrn_ax_less_input.py
+
 
