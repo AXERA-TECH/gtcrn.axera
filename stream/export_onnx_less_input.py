@@ -101,8 +101,8 @@ class StreamGTCRNNoScatter(nn.Module):
         feat = self.erb.bm(feat)  # (B,3,T,129)
         feat = self.sfe(feat)     # (B,9,T,129)
 
-        feat, en_outs, en_conv_cache_0, en_conv_cache_1, en_conv_cache_2, \
-            en_tra_cache_0, en_tra_cache_1, en_tra_cache_2 = \
+        feat, en_outs, en_conv_cache_0_out, en_conv_cache_1_out, en_conv_cache_2_out, \
+            en_tra_cache_0_out, en_tra_cache_1_out, en_tra_cache_2_out = \
             self.encoder(feat, en_conv_cache_0, en_conv_cache_1, en_conv_cache_2,
                         en_tra_cache_0, en_tra_cache_1, en_tra_cache_2)
 
@@ -110,39 +110,44 @@ class StreamGTCRNNoScatter(nn.Module):
         feat, inter_cache_0 = self.dpgrnn1(feat, inter_cache_0)
         feat, inter_cache_1 = self.dpgrnn2(feat, inter_cache_1)
 
-        m_feat, de_conv_cache_0, de_conv_cache_1, de_conv_cache_2, \
-            de_tra_cache_0, de_tra_cache_1, de_tra_cache_2 = \
+        m_feat, de_conv_cache_0_out, de_conv_cache_1_out, de_conv_cache_2_out, \
+            de_tra_cache_0_out, de_tra_cache_1_out, de_tra_cache_2_out = \
             self.decoder(feat, en_outs, de_conv_cache_0, de_conv_cache_1, de_conv_cache_2,
                         de_tra_cache_0, de_tra_cache_1, de_tra_cache_2)
         
         m = self.erb.bs(m_feat)
         spec_enh = self.mask(m, spec_ref.permute(0,3,2,1))
         spec_enh = spec_enh.permute(0,3,2,1)
+
+
+        en_conv_cache_out = torch.zeros(1, 16, 16, 33).to(device)
+        de_conv_cache_out = torch.zeros(1, 16, 16, 33).to(device)
+        
+        # TRA cache size is (1, B, channels*2) where channels = in_channels//2 = 8, so channels*2 = 16
+        en_tra_cache_out = torch.zeros(1, 3, 1, 16).to(device)
+        de_tra_cache_out = torch.zeros(1, 3, 1, 16).to(device)
  
-        en_conv_cache[:,:,:2,:] = en_conv_cache_0
-        en_conv_cache[:,:,2:6,:] = en_conv_cache_1
-        en_conv_cache[:,:,6:,:] = en_conv_cache_2
-        de_conv_cache[:,:,6:,:] = de_conv_cache_0
-        de_conv_cache[:,:,2:6,:] = de_conv_cache_1
-        de_conv_cache[:,:,:2,:] = de_conv_cache_2
+        en_conv_cache_out =  torch.cat([en_conv_cache_0_out, en_conv_cache_1_out, en_conv_cache_2_out], axis=2) 
+        de_conv_cache_out =  torch.cat([de_conv_cache_2_out, de_conv_cache_1_out, de_conv_cache_0_out], axis=2)
 
-
-        en_tra_cache[:,0,:,:] = en_tra_cache_0
-        en_tra_cache[:,1,:,:] = en_tra_cache_1
-        en_tra_cache[:,2,:,:] = en_tra_cache_2
-        de_tra_cache[:,0,:,:] = de_tra_cache_0
-        de_tra_cache[:,1,:,:] = de_tra_cache_1
-        de_tra_cache[:,2,:,:] = de_tra_cache_2
+        en_tra_cache_0_out = en_tra_cache_0_out.reshape(1, 1, 1, 16)
+        en_tra_cache_1_out = en_tra_cache_1_out.reshape(1, 1, 1, 16)
+        en_tra_cache_2_out = en_tra_cache_2_out.reshape(1, 1, 1, 16)
+        de_tra_cache_0_out = de_tra_cache_0_out.reshape(1, 1, 1, 16)
+        de_tra_cache_1_out = de_tra_cache_1_out.reshape(1, 1, 1, 16)
+        de_tra_cache_2_out = de_tra_cache_2_out.reshape(1, 1, 1, 16)
+        en_tra_cache_out =  torch.cat([en_tra_cache_0_out, en_tra_cache_1_out, en_tra_cache_2_out], axis=1) 
+        de_tra_cache_out =  torch.cat([de_tra_cache_0_out, de_tra_cache_1_out, de_tra_cache_2_out], axis=1)
 
         
         inter_cache_0 = inter_cache_0.reshape(1, 1, 33, 16)
         inter_cache_1 = inter_cache_1.reshape(1, 1, 33, 16)        
         
         return (spec_enh, 
-                en_conv_cache,
-                de_conv_cache,
-                en_tra_cache,
-                de_tra_cache,
+                en_conv_cache_out,
+                de_conv_cache_out,
+                en_tra_cache_out,
+                de_tra_cache_out,
                 inter_cache_0, inter_cache_1)
 
 
@@ -310,20 +315,12 @@ if __name__ == "__main__":
         outputs.append(output_list[0])
         
         cache_dict = {
-            'en_conv_cache_0': output_list[1],
-            'en_conv_cache_1': output_list[2],
-            'en_conv_cache_2': output_list[3],
-            'de_conv_cache_0': output_list[4],
-            'de_conv_cache_1': output_list[5],
-            'de_conv_cache_2': output_list[6],
-            'en_tra_cache_0': output_list[7],
-            'en_tra_cache_1': output_list[8],
-            'en_tra_cache_2': output_list[9],
-            'de_tra_cache_0': output_list[10],
-            'de_tra_cache_1': output_list[11],
-            'de_tra_cache_2': output_list[12],
-            'inter_cache_0': output_list[13],
-            'inter_cache_1': output_list[14],
+            'en_conv_cache': output_list[1],
+            'de_conv_cache': output_list[2],
+            'en_tra_cache': output_list[3],
+            'de_tra_cache': output_list[4],
+            'inter_cache_0': output_list[5],
+            'inter_cache_1': output_list[6],
         }
     
     outputs = np.concatenate(outputs, axis=2)
